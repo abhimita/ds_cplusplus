@@ -39,6 +39,15 @@ class BinaryTree {
            InorderTraversalRecursive(n->right.get());
        }
 
+       int GetHeight() {
+           return GetHeightRecursive(root.get());
+       }
+       int GetHeightRecursive(Node* n) {
+           if (!n) return 0;
+           return 1 + max(GetHeightRecursive(n->left.get()), GetHeightRecursive(n->right.get()));
+       }
+
+       // Iterative version of inorder traversal
        void InorderTraversalIterative() {
            stack<Node*> s;
            Node* n = root.get();
@@ -156,4 +165,7 @@ int main() {
 
     cout << "Find path from root to the node: ";
     binary_tree.FindPath(binary_tree.root.get(), 'f');
+    cout << endl;
+
+    cout << "Get tree height: " << binary_tree.GetHeight() << endl;
 }
