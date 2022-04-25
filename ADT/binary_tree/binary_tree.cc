@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -36,6 +37,24 @@ class BinaryTree {
            InorderTraversalRecursive(n->left.get());
            cout << n->item << ' ';
            InorderTraversalRecursive(n->right.get());
+       }
+
+       void InorderTraversalIterative() {
+           stack<Node*> s;
+           Node* n = root.get();
+           while (true) {
+               if (n) {
+                   s.push(n);
+                   n = n->left.get();
+               } else if (s.size() > 0) {
+                   n = s.top();
+                   s.pop();
+                   cout << n->item << ' ';
+                   n = n->right.get();
+               } else {
+                   break;
+               }
+           }
        }
        // Given a level it will print all siblings at that level
        void LevelRecursive(Node* n, int level) {
@@ -112,15 +131,18 @@ int main() {
     auto nb = unique_ptr<TreeNode>(new TreeNode('b', move(nd), move(ne)));
     auto na = unique_ptr<TreeNode>(new TreeNode('a', move(nb), move(nc)));
     BinaryTree<char> binary_tree(move(na));
-    /*
-    cout << "Preorder traversal: ";
+
+    cout << "Preorder traversal recursive: ";
     binary_tree.PreorderTraversalRecursive(binary_tree.root.get());
     cout << endl;
-    cout << "Postorder traversal: ";
+    cout << "Postorder traversal recursive: ";
     binary_tree.PostorderTraversalRecursive(binary_tree.root.get());
     cout << endl;
-    cout << "Inorder traversal: ";
+    cout << "Inorder traversal recursive: ";
     binary_tree.InorderTraversalRecursive(binary_tree.root.get());
+    cout << endl;
+    cout << "Inorder traversal iterative: ";
+    binary_tree.InorderTraversalIterative();
     cout << endl;
     cout << "Level order traversal (Recursion): ";
     binary_tree.LevelOrderUsingRecursion(binary_tree.root.get(),4);
@@ -130,6 +152,8 @@ int main() {
     cout << endl;
     cout << "List leaves from left to right: ";
     binary_tree.ListLeavesFromLeftToRight(binary_tree.root.get());
-    cout << endl;*/
+    cout << endl;
+
+    cout << "Find path from root to the node: ";
     binary_tree.FindPath(binary_tree.root.get(), 'f');
 }
