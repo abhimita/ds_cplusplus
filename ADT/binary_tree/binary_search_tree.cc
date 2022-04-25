@@ -39,20 +39,23 @@ class BinarySearchTree {
   
        }
 
-       const T& Max() {
+       const Node* Max() {
            Node *n = root.get();
            while (n->right) {
                n = n->right.get();
            } 
-           return n->item;
+           return n;
        }
 
-       const T& Min() {
-           Node *n = root.get();
+       Node* Min() {
+           return Min(root);
+       }
+       Node* Min(unique_ptr<Node>& r) {
+           Node* n = r.get();
            while (n->left) {
-               n = n->left.get();
+               n = move(n->left.get());
            } 
-           return n->item;
+           return n;
        }
 
        void Insert(const T &key) {
@@ -70,7 +73,6 @@ class BinarySearchTree {
            }
 
        }
-       void Remove(const T& key);
        void InOrderPrint() {
            InOrderPrint(root);
            cout << endl;
@@ -81,6 +83,57 @@ class BinarySearchTree {
            cout << n->item << ' ';
            InOrderPrint(n->right);
        }
+       void Remove(const T& key) {
+           Remove(root, key);
+       }
+       // Recursive removal of node
+       void Remove(unique_ptr<Node>& n, const T& key) {
+           if (!n) return;
+           if (key < n->item) {
+               Remove(n->left, key);
+           } else if (key > n->item) {
+               Remove(n->right, key);
+           } else {
+               if (n->left && n->right) {
+                   n->item = Min(n->right)->item;
+                   Remove(n->right, n->item);
+               } else {
+                   n = std::move((n->left) ? n->left : n->right);
+               }
+           }
+       }
+       /*
+       void RemoveIterative(const T& key) {
+           Node* n = root.get();
+           Node* p = nullptr;
+           while (n) {
+               if (n->item == key) { 
+                   if ((!n->left) && (!n->right)) {
+                       if (p->left->item == key) {
+                           p->left = nullptr;
+                       } else {
+                           p->right = nullptr;
+                       }
+                   } else if ((n->left) && (!n->right)) {
+                       p->left = move(n->left);
+                   } else if ((!n->left) && (n->right)) {
+                       p->right = move(n->right);
+                   } else { // Node to be deleted has left & right child
+                       //p->left = move(Min(n->right));
+                   }
+                   return;
+               }
+               if (n->item > key) {
+                   p = n;
+                   n = n->left.get();
+               } else if (n->item < key) {
+                   p = n;
+                   n = n->right.get();
+               }
+           }
+           return; // key not found
+       }
+       */
 };
 
 int main() {
@@ -90,9 +143,8 @@ int main() {
         bst.Insert(i);
     }
     bst.InOrderPrint();
-    cout << bst.root->item << endl;
     cout << bst.Contains(20) << ',' << bst.Contains(100) << endl;
-    cout << bst.root->item << endl;
-    cout << bst.Max() << ',' << bst.Min() << endl;
-    cout << bst.root->item << endl;
+    cout << bst.Max()->item << ',' << bst.Min()->item << endl;
+    bst.Remove(5);
+    bst.InOrderPrint();
 }
