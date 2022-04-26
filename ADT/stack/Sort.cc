@@ -10,19 +10,23 @@ stack<T> Sort(stack<T> &s) {
     stack<T> temp_stack;
     
     while (!s.empty()) {
-        T& x = s.top();
-        cout << "Popped " << x << " from stack" << endl;
+        T x = s.top();
         s.pop();
+        // check if temp stack is empty
+        // elements in temp_stacj should not be lesser than the incoming element
+        // This is required as we need the temp_stack to be sorted with smallest element on the top
         while (!temp_stack.empty() && temp_stack.top() < x) {
-            T& y = temp_stack.top();
-            cout << "L:Popped " << y << " from temp_stack" << endl;
+            // Pop elements from temp_stack which are less than incoming element and
+            // move them back to original stack
+            T y = temp_stack.top();
             temp_stack.pop();
             s.push(y);
-            cout << "L:Pushed " << y << " into stack" << endl;
         }
-        cout << "Pushed " << x << " into temp_stack" << endl;
+        // Now push the incoming element to temp stack 
+        // At this time all elements in temp stack are in ascending order 
+        // reading from top of stack towards the bottom
         temp_stack.push(x);
-    }
+    } 
     return temp_stack;
 }
 
