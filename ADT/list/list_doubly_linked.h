@@ -45,6 +45,27 @@ class ListDoublyLinked {
            }
            return -1;
        }
+       void Remove(const unsigned int pos) {
+           if (pos > cur_size) throw out_of_range("Position out of range");
+           if (pos == 0) {
+               if (cur_size == 1) {
+                   head = move(nullptr);
+                   tail = nullptr;
+               } else {
+                   head = move(head->right);
+               } 
+            } else if (pos == cur_size) {
+                Node* n = tail->left;
+                n->right = move(nullptr);
+                tail = n;
+            } else {
+                cout << "here" << endl;
+                Node* n = GetNode(pos);
+                n->right = move(n->right->right);
+                n->right->left = n;
+            }
+            cur_size--;
+       }
        void Insert(const T& item, const unsigned int pos) {
            if (pos > cur_size) throw out_of_range("Position out of range");
            auto n = unique_ptr<Node>(new Node);
@@ -56,12 +77,13 @@ class ListDoublyLinked {
                    head = move(n);
                } else {
                    head = move(n);
+                   tail = head.get();
                    head->left = nullptr;
                }
-           } else if (pos == cur_size - 1) {
+           } else if (pos == cur_size) {
                n->left = tail;
                n->left->right = move(n);
-               tail = n->left->right.get();
+               tail = tail->right.get();
            } else {
                auto p = GetNode(pos);
                n->left = p;
@@ -76,7 +98,8 @@ class ListDoublyLinked {
 /*
 int main() {
     ListDoublyLinked<int> l;
-    l.Insert(10, 0);
-    l.Insert(20, 0);
-    l.Insert(30, 0);
+    for (int i = 10; i < 50; i += 10) {
+        cout << "Insert " << i << " at position: " << (i / 10 - 1) << endl;
+        l.Insert(i, i / 10 - 1);
+    }
 }*/
