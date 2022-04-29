@@ -49,7 +49,6 @@ TEST(ListDoublyLinked, InsertElementInTheMiddle) {
     }
 }
 
-/*
 TEST(ListDoublyLinked, RemoveAtTail) {
     ListDoublyLinked<int> l;
     ASSERT_EQ(l.Size(), 0);
@@ -57,13 +56,44 @@ TEST(ListDoublyLinked, RemoveAtTail) {
         l.Insert(i, i / 10 - 1);
     }
     EXPECT_EQ(l.Size(), 4);
-    
     l.Remove(3);
-    EXPECT_EQ(l.Size(), 3);    
-    for (int i = 10; i < 40; i += 10) {
-        ASSERT_EQ(l.Get(i / 10 - 1), i);
+    EXPECT_EQ(l.Size(), 3);
+    int expected_values[] = {10, 20, 30};
+    for (int i = 0; i < l.Size(); i++) {
+        EXPECT_TRUE(l.Get(i) == expected_values[i]);
     }
-}*/
+}
+
+TEST(ListDoublyLinked, RemoveAtHead) {
+    ListDoublyLinked<int> l;
+    ASSERT_EQ(l.Size(), 0);
+    for (int i = 10; i < 50; i += 10) {
+        l.Insert(i, i / 10 - 1);
+    }
+    EXPECT_EQ(l.Size(), 4);
+    l.Remove(0);
+    EXPECT_EQ(l.Size(), 3);
+    int expected_values[] = {20, 30, 40};
+    for (int i = 0; i < l.Size(); i++) {
+        EXPECT_TRUE(l.Get(i) == expected_values[i]);
+    }
+}
+
+TEST(ListDoublyLinked, RemoveInTheMiddle) {
+    ListDoublyLinked<int> l;
+    ASSERT_EQ(l.Size(), 0);
+    for (int i = 10; i < 50; i += 10) {
+        l.Insert(i, i / 10 - 1);
+    }
+    EXPECT_EQ(l.Size(), 4);
+    l.Remove(1);
+    EXPECT_EQ(l.Size(), 3);
+    /*
+    int expected_values[] = {10, 30, 40};
+    for (int i = 0; i < l.Size(); i++) {
+        EXPECT_TRUE(l.Get(i) == expected_values[i]);
+    }*/
+}
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

@@ -45,24 +45,29 @@ class ListDoublyLinked {
            }
            return -1;
        }
+
+       // Remove at position: pos
        void Remove(const unsigned int pos) {
-           if (pos > cur_size) throw out_of_range("Position out of range");
-           if (pos == 0) {
+           if (pos >= cur_size) throw out_of_range("Position out of range");
+           if (pos == 0) { // List will be empty after this operation
                if (cur_size == 1) {
                    head = move(nullptr);
                    tail = nullptr;
                } else {
                    head = move(head->right);
                } 
-            } else if (pos == cur_size) {
+            } else if (pos == cur_size - 1) { // Remove at the tail
                 Node* n = tail->left;
                 n->right = move(nullptr);
                 tail = n;
             } else {
-                cout << "here" << endl;
                 Node* n = GetNode(pos);
-                n->right = move(n->right->right);
-                n->right->left = n;
+                Node* p = n->left;
+                //cout << n->item << ',' << n->left->item << ',' << n->right->item << ',' << pos << endl;
+                p->right = move(n->right);
+                //n->left->right->left = n->left; // This is incorrect
+                p->right->left = p;
+                
             }
             cur_size--;
        }
