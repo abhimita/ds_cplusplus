@@ -87,8 +87,9 @@ class ListDoublyLinked {
            } else {
                auto p = GetNode(pos);
                n->left = p;
-               p->right = move(n);
                n->right = move(p->right);
+               n->right->left = n.get();
+               n->left->right = move(n);
            }
            cur_size++;
            if (cur_size == 1) tail = head.get();
