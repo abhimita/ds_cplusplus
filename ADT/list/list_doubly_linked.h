@@ -63,7 +63,6 @@ class ListDoublyLinked {
             } else {
                 Node* n = GetNode(pos);
                 Node* p = n->left;
-                //cout << n->item << ',' << n->left->item << ',' << n->right->item << ',' << pos << endl;
                 p->right = move(n->right);
                 //n->left->right->left = n->left; // This is incorrect
                 p->right->left = p;
