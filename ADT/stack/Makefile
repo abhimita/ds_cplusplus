@@ -19,7 +19,10 @@ StackReversal: StackReversal.o
 QueueReversal: QueueReversal.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-all: MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal
+SmallerElementForEachArrayElement: SmallerElementForEachArrayElement.o
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+all: MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal SmallerElementForEachArrayElement
 
 clean:
-	rm -f  *.o	MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal
+	rm -f  *.o	MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal SmallerElementForEachArrayElement
