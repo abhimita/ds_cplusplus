@@ -1,6 +1,9 @@
 CXX=g++
 CXXFLAGS=-Wall -std=c++11 -Wc++11-extensions
 
+InfixToPostfix: InfixToPostfix.o
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
 MatchingParenthesis: MatchingParenthesis.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
@@ -22,7 +25,7 @@ QueueReversal: QueueReversal.o
 SmallerElementForEachArrayElement: SmallerElementForEachArrayElement.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-all: MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal SmallerElementForEachArrayElement
+all: MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal SmallerElementForEachArrayElement InfixToPostfix
 
 clean:
-	rm -f  *.o	MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal SmallerElementForEachArrayElement
+	rm -f  *.o	MatchingParenthesis StackReversal DeleteMiddleElement QueueUsingTwoStacks Sort QueueReversal SmallerElementForEachArrayElement InfixToPostfix
